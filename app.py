@@ -169,7 +169,7 @@ st.markdown("""
         font-size: 1.75rem;
         font-weight: 700;
         color: #0F172A;
-        margin: 0 0 8px 0;
+        margin: 0 0 12px 0;
         letter-spacing: -0.02em;
         line-height: 1.25;
     }
@@ -480,9 +480,6 @@ st.markdown(f"""
         <span class="badge-dot"></span> PRODUCT RESEARCH BENCHMARK · GROWW INVESTOR RETENTION
     </div>
     <div class="hero-title">Groww 12-Month SIP Continuation Discovery Engine</div>
-    <div class="hero-tagline">
-        An AI-assisted behavioral intelligence platform diagnosing retail investor drop-off and identifying product-led interventions to improve 12-month mutual fund SIP continuation in India.
-    </div>
     <div class="hero-meta-strip">
         <div class="meta-pill"><span>Target Platform:</span> <strong>Groww Mutual Funds</strong></div>
         <div class="meta-pill"><span>Analyzed Corpus:</span> <strong>{total_imp:,} Signals</strong></div>
