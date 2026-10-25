@@ -71,7 +71,10 @@ CB_VERMILION = FINTECH_RED
 CB_ORANGE    = FINTECH_AMBER
 CB_SKYBLUE   = FINTECH_BLUE
 OKABE_ITO    = FINTECH_PALETTE
-SEV_COLORS   = {"High": FINTECH_RED, "Medium": FINTECH_AMBER, "Low": FINTECH_GREEN, "None": FINTECH_MUTED}
+def render_html(html_str):
+    """Safely render HTML in Streamlit by stripping leading indentation so markdown-it never treats it as an indented code block."""
+    cleaned = "\n".join(line.strip() for line in html_str.strip().split("\n") if line.strip())
+    st.markdown(cleaned, unsafe_allow_html=True)
 
 def base_layout(height=340, margin=None):
     """Reusable, accessible Plotly chart layout for a pristine light fintech canvas."""
@@ -426,7 +429,7 @@ df = get_cached_sip_data()
 
 # ── Sidebar Filters & Controls ────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("""
+    render_html("""
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #E2E8F0;">
         <div style="width:34px;height:34px;background:#00875A;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-weight:700;font-size:16px;letter-spacing:-0.03em;">GR</div>
         <div>
@@ -434,7 +437,7 @@ with st.sidebar:
             <div style="font-size:0.72rem;color:#00875A;font-weight:600;letter-spacing:0.04em;">GROWW 12M RETENTION</div>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
     total_records = len(df)
     groww_records = int(df['source'].str.contains('Groww', case=False, na=False).sum()) if not df.empty else 0
@@ -469,14 +472,14 @@ with st.sidebar:
     sel_severity = st.selectbox("Severity Level", sev_options)
 
     st.divider()
-    st.markdown("""
+    render_html("""
     <div style="font-size:0.76rem;color:#64748B;line-height:1.6;">
         <div><strong>Platform:</strong> Groww Mutual Funds</div>
         <div><strong>Model:</strong> Gemini 2.5 Flash + Guardrails</div>
         <div><strong>Benchmark:</strong> 95.0% Grounded Accuracy</div>
         <div><strong>Traceability:</strong> 100% Quote-Verified</div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 # Apply filters
 fdf = df.copy()
@@ -501,7 +504,7 @@ cancelled_count = (rel_df['continuation_status'] == 'Explicitly-Cancelled').sum(
 at_risk_count = (rel_df['continuation_status'] == 'At-Risk (Hesitating/Failing)').sum() if not rel_df.empty else 0
 active_continuing = (rel_df['continuation_status'] == 'Active-Continuing').sum() if not rel_df.empty else 0
 
-st.markdown(f"""
+render_html(f"""
 <div class="fintech-hero">
     <div class="hero-badge">
         <span class="badge-dot"></span> PRODUCT RESEARCH BENCHMARK · GROWW INVESTOR RETENTION
@@ -515,7 +518,7 @@ st.markdown(f"""
         <div class="meta-pill"><span>Scope:</span> <strong>Product & UX Interventions (Zero Discounts)</strong></div>
     </div>
 </div>
-""", unsafe_allow_html=True)
+""")
 
 # ── Metric Cards Row ──────────────────────────────────────────────────────────
 col1, col2, col3, col4, col5 = st.columns(5)
@@ -530,13 +533,13 @@ kpi_cards = [
 
 for col, val, label, sublabel, color_code, border_style in kpi_cards:
     with col:
-        st.markdown(f"""
+        render_html(f"""
         <div class="kpi-card" style="{border_style}">
             <div class="kpi-value" style="color:{color_code};">{val}</div>
             <div class="kpi-label">{label}</div>
             <div class="kpi-sublabel">{sublabel}</div>
         </div>
-        """, unsafe_allow_html=True)
+        """)
 
 st.markdown("")
 
@@ -556,7 +559,7 @@ tab0, tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
 # TAB 0: EXECUTIVE OVERVIEW
 # ════════════════════════════════════════════════════════════════════════════════
 with tab0:
-    st.markdown('<div class="section-header">Executive Summary — Primary Reasons First-Time Investors Drop Off</div>', unsafe_allow_html=True)
+    render_html('<div class="section-header">Executive Summary — Primary Reasons First-Time Investors Drop Off</div>')
     st.caption("Synthesized from verified public reviews across Google Play Store, Reddit (r/mutualfunds, r/IndiaInvestments), and investor dispute forums.")
 
     if rel_df.empty:
@@ -571,7 +574,7 @@ with tab0:
             cat_counts['%'] = (cat_counts['Count'] / len(rel_df) * 100).round(1)
             max_cat = cat_counts['%'].max()
             
-            st.markdown(f"""
+            render_html(f"""
             <div class="chart-card">
                 <div class="chart-card-header">
                     <div>
@@ -581,7 +584,7 @@ with tab0:
                     <span class="badge badge-slate">Prevalence %</span>
                 </div>
             </div>
-            """, unsafe_allow_html=True)
+            """)
             
             fig_cat = px.bar(
                 cat_counts, x='%', y='Category', orientation='h',
@@ -619,7 +622,7 @@ with tab0:
             status_counts.columns = ['Status', 'Count']
             status_counts['%'] = (status_counts['Count'] / len(rel_df) * 100).round(1)
 
-            st.markdown(f"""
+            render_html(f"""
             <div class="chart-card">
                 <div class="chart-card-header">
                     <div>
@@ -629,7 +632,7 @@ with tab0:
                     <span class="badge badge-green">100% Grounded</span>
                 </div>
             </div>
-            """, unsafe_allow_html=True)
+            """)
 
             status_color_map = {
                 'At-Risk (Hesitating/Failing)': '#D97706',
@@ -661,32 +664,27 @@ with tab0:
             )
             st.plotly_chart(fig_status, use_container_width=True)
 
-            # Compact status breakdown grid below donut
-            grid_items = "".join([
-                f"""
-                <div style="display:flex;align-items:center;justify-content:space-between;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:6px;padding:5px 8px;font-size:0.75rem;">
-                    <div style="display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-                        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:{status_color_map.get(r['Status'], '#64748B')};flex-shrink:0;"></span>
-                        <span style="color:#1E293B;font-weight:500;overflow:hidden;text-overflow:ellipsis;">{r['Status']}</span>
-                    </div>
-                    <div style="font-weight:600;color:#0F172A;margin-left:6px;flex-shrink:0;">
-                        {r['Count']:,} <span style="font-weight:400;color:#64748B;">({r['%']}%)</span>
-                    </div>
-                </div>
-                """ for _, r in status_counts.iterrows()
+            # Compact status breakdown grid below donut - built cleanly inline without indentation
+            grid_cards = "".join([
+                f'<div style="display:flex;align-items:center;justify-content:space-between;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:6px;padding:5px 8px;font-size:0.75rem;">'
+                f'<div style="display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'
+                f'<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:{status_color_map.get(r["Status"], "#64748B")};flex-shrink:0;"></span>'
+                f'<span style="color:#1E293B;font-weight:500;overflow:hidden;text-overflow:ellipsis;">{r["Status"]}</span>'
+                f'</div>'
+                f'<div style="font-weight:600;color:#0F172A;margin-left:6px;flex-shrink:0;">'
+                f'{r["Count"]:,} <span style="font-weight:400;color:#64748B;">({r["%"]}%)</span>'
+                f'</div>'
+                f'</div>'
+                for _, r in status_counts.iterrows()
             ])
-            st.markdown(f"""
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:-8px;margin-bottom:14px;">
-                {grid_items}
-            </div>
-            """, unsafe_allow_html=True)
+            render_html(f'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:-8px;margin-bottom:14px;">{grid_cards}</div>')
 
         # Key Findings Card Row
-        st.markdown('<div class="section-header">Top 3 Discoveries for Product Strategy</div>', unsafe_allow_html=True)
+        render_html('<div class="section-header">Top 3 Discoveries for Product Strategy</div>')
         rec_col1, rec_col2, rec_col3 = st.columns(3)
         
         with rec_col1:
-            st.markdown(f"""
+            render_html(f"""
             <div class="insight-box" style="border-left:4px solid {FINTECH_RED};min-height:195px;display:flex;flex-direction:column;justify-content:space-between;">
                 <div>
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
@@ -699,10 +697,10 @@ with tab0:
                     </div>
                 </div>
             </div>
-            """, unsafe_allow_html=True)
+            """)
 
         with rec_col2:
-            st.markdown(f"""
+            render_html(f"""
             <div class="insight-box" style="border-left:4px solid {FINTECH_AMBER};min-height:195px;display:flex;flex-direction:column;justify-content:space-between;">
                 <div>
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
@@ -715,10 +713,10 @@ with tab0:
                     </div>
                 </div>
             </div>
-            """, unsafe_allow_html=True)
+            """)
 
         with rec_col3:
-            st.markdown(f"""
+            render_html(f"""
             <div class="insight-box" style="border-left:4px solid {FINTECH_GREEN};min-height:195px;display:flex;flex-direction:column;justify-content:space-between;">
                 <div>
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
@@ -731,7 +729,7 @@ with tab0:
                     </div>
                 </div>
             </div>
-            """, unsafe_allow_html=True)
+            """)
 
 # ════════════════════════════════════════════════════════════════════════════════
 # TAB 1: THEMES & ROOT CAUSES
@@ -747,7 +745,7 @@ with tab1:
         for idx, th in enumerate(themes[:6], 1):
             accent = FINTECH_PALETTE[(idx - 1) % len(FINTECH_PALETTE)]
             with st.expander(f"Theme {idx}: {th['theme_name']} ({th['record_count']} signals · {th['distinct_sources']} sources)", expanded=(idx <= 2)):
-                st.markdown(f"""
+                render_html(f"""
                 <div class="insight-box" style="border-left:4px solid {accent};">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
                         <strong style="color:{accent};font-size:1.02rem;">{th['theme_name']}</strong>
@@ -768,35 +766,35 @@ with tab1:
                         <strong>Source Distribution:</strong> {json.dumps(th['source_distribution'])} · <em>Research Scope: {th['research_gap']}</em>
                     </div>
                 </div>
-                """, unsafe_allow_html=True)
+                """)
 
                 # Representative Excerpts
                 st.markdown("**Representative Customer Quotes:**")
                 for ex in th['representative_excerpts']:
-                    st.markdown(f"""
+                    render_html(f"""
                     <div class="quote-box">
                         "{ex['quote']}"<br>
                         <div style="font-size:0.76rem;color:{FINTECH_MUTED};margin-top:6px;font-style:normal;">
                             Source: <strong>{ex['source']}</strong> · State: <span class="badge badge-slate">{ex['status']}</span> · Record ID: <code>{ex['record_id']}</code>
                         </div>
                     </div>
-                    """, unsafe_allow_html=True)
+                    """)
 
                 # Counterexample / Resilience Case
                 if th['counterexample']:
-                    st.markdown(f"""
+                    render_html(f"""
                     <div style="background:#E6F7F0;border-left:3px solid {FINTECH_GREEN};border-radius:0 6px 6px 0;padding:10px 14px;margin-top:8px;">
                         <strong style="color:{FINTECH_GREEN};font-size:0.86rem;">Resilience Case (Investor Continuation Mechanism):</strong><br>
                         <span style="font-style:italic;color:{FINTECH_DARK_NAVY};">"{th['counterexample']['content']}"</span><br>
                         <div style="font-size:0.76rem;color:#00704A;margin-top:4px;">Product Takeaway: {th['counterexample']['insight']}</div>
                     </div>
-                    """, unsafe_allow_html=True)
+                    """)
 
 # ════════════════════════════════════════════════════════════════════════════════
 # TAB 2: 12-MONTH USER JOURNEY
 # ════════════════════════════════════════════════════════════════════════════════
 with tab2:
-    st.markdown('<div class="section-header">12-Month Investor Lifecycle (Friction Points by Journey Stage)</div>', unsafe_allow_html=True)
+    render_html('<div class="section-header">12-Month Investor Lifecycle (Friction Points by Journey Stage)</div>')
     st.caption("Maps investor sentiment, behavioral catalysts, and discontinuation risks from Day 0 through Year 1 continuation.")
 
     journey_stages = [
@@ -820,7 +818,7 @@ with tab2:
         
         j_df = pd.DataFrame(j_chart_data)
         max_sig = max([d['Signals'] for d in j_chart_data] or [1])
-        st.markdown("""
+        render_html("""
         <div class="chart-card">
             <div class="chart-card-header">
                 <div>
@@ -830,7 +828,7 @@ with tab2:
                 <span class="badge badge-slate">7 Stages</span>
             </div>
         </div>
-        """, unsafe_allow_html=True)
+        """)
         fig_j = px.bar(
             j_df, x='Signals', y='Stage', orientation='h',
             color='Stage', color_discrete_sequence=FINTECH_PALETTE,
@@ -865,7 +863,7 @@ with tab2:
         st.markdown("**Journey Stage Breakdown:**")
         for stage, desc in journey_stages:
             cnt = j_counts.get(stage, 0)
-            st.markdown(f"""
+            render_html(f"""
             <div class="insight-box" style="padding:10px 14px;margin:6px 0;">
                 <div style="display:flex;justify-content:space-between;align-items:center;">
                     <strong>{stage}</strong>
@@ -873,13 +871,13 @@ with tab2:
                 </div>
                 <div style="font-size:0.8rem;color:{FINTECH_MUTED};margin-top:4px;">{desc}</div>
             </div>
-            """, unsafe_allow_html=True)
+            """)
 
 # ════════════════════════════════════════════════════════════════════════════════
 # TAB 3: OPPORTUNITY PRIORITIZATION
 # ════════════════════════════════════════════════════════════════════════════════
 with tab3:
-    st.markdown('<div class="section-header">Opportunity Prioritization Matrix (Scored Interventions)</div>', unsafe_allow_html=True)
+    render_html('<div class="section-header">Opportunity Prioritization Matrix (Scored Interventions)</div>')
     st.caption("Solutions prioritized using transparent multi-dimensional criteria: Frequency, Severity, 12M Link, In-App Addressability, and Feasibility.")
 
     with st.expander("Model Configuration: Adjust Prioritization Weights", expanded=False):
@@ -914,7 +912,7 @@ with tab3:
         col_m1, col_m2 = st.columns([3, 2])
         
         with col_m1:
-            st.markdown("""
+            render_html("""
             <div class="chart-card">
                 <div class="chart-card-header">
                     <div>
@@ -924,7 +922,7 @@ with tab3:
                     <span class="badge badge-green">Scored Matrix</span>
                 </div>
             </div>
-            """, unsafe_allow_html=True)
+            """)
             fig_opp = px.scatter(
                 opp_df,
                 x='pct_sample',
@@ -956,7 +954,7 @@ with tab3:
         with col_m2:
             st.markdown("**Top Ranked Interventions for Groww:**")
             for _, r in opp_df.head(4).iterrows():
-                st.markdown(f"""
+                render_html(f"""
                 <div class="insight-box">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
                         <strong style="color:{FINTECH_DARK_NAVY};">Rank #{int(r['rank'])}: {r['sub_category']}</strong>
@@ -972,10 +970,10 @@ with tab3:
                         Unmet Need: "{r['example_unmet_need']}"
                     </div>
                 </div>
-                """, unsafe_allow_html=True)
+                """)
 
         # Full dimension table
-        st.markdown('<div class="section-header">Complete Opportunity Evaluation Breakdown</div>', unsafe_allow_html=True)
+        render_html('<div class="section-header">Complete Opportunity Evaluation Breakdown</div>')
         display_opps = opp_df[['rank', 'sub_category', 'record_count', 'distinct_sources', 'avg_severity', 'relevance_12m', 'continuation_link', 'addressability', 'feasibility', 'composite_score']].copy()
         display_opps.columns = ['Rank', 'Opportunity Area', 'Volume', 'Sources', 'Avg Severity', '12M Impact', 'Discontinuation Link', 'Addressability', 'Feasibility', 'Composite Score']
         st.dataframe(display_opps.set_index('Rank'), use_container_width=True)
@@ -984,7 +982,7 @@ with tab3:
 # TAB 4: FEEDBACK EXPLORER
 # ════════════════════════════════════════════════════════════════════════════════
 with tab4:
-    st.markdown('<div class="section-header">Qualitative Feedback Explorer (Traceable Evidence Corpus)</div>', unsafe_allow_html=True)
+    render_html('<div class="section-header">Qualitative Feedback Explorer (Traceable Evidence Corpus)</div>')
     st.caption("Inspect raw quotes, review metadata, AI inferences, and direct links to public source posts.")
 
     if rel_df.empty:
@@ -1001,7 +999,7 @@ with tab4:
         for _, row in exp_df.head(15).iterrows():
             sev_badge = "badge-red" if row['severity'] == 'High' else "badge-amber" if row['severity'] == 'Medium' else "badge-blue"
             with st.container():
-                st.markdown(f"""
+                render_html(f"""
                 <div class="insight-box">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
                         <strong style="color:{FINTECH_DARK_NAVY};">{row['primary_category']} · {row['sub_category']}</strong>
@@ -1027,13 +1025,13 @@ with tab4:
                     </div>
                     {f'<div style="margin-top:4px;font-size:0.75rem;color:{FINTECH_RED};"><strong>Limitations Note:</strong> {row["evidence_limitations"]}</div>' if row.get("evidence_limitations") else ''}
                 </div>
-                """, unsafe_allow_html=True)
+                """)
 
 # ════════════════════════════════════════════════════════════════════════════════
 # TAB 5: HUMAN AUDIT & TRACEABILITY
 # ════════════════════════════════════════════════════════════════════════════════
 with tab5:
-    st.markdown('<div class="section-header">Human-in-the-Loop Audit & Verification Workbench</div>', unsafe_allow_html=True)
+    render_html('<div class="section-header">Human-in-the-Loop Audit & Verification Workbench</div>')
     st.caption("Inspect borderline or high-severity cases, override AI classifications, and maintain an immutable audit trail in SQLite.")
 
     review_needed_df = rel_df[rel_df['needs_human_review'] == 1].copy() if not rel_df.empty else pd.DataFrame()
@@ -1062,14 +1060,14 @@ with tab5:
         
         with col_left:
             st.markdown("#### Primary Evidence Record")
-            st.markdown(f"""
+            render_html(f"""
             <div class="insight-box">
                 <div><strong>Record ID:</strong> <code>{target_record['id']}</code></div>
                 <div><strong>Source Platform:</strong> {target_record['source']}</div>
                 <div><strong>Collection Date:</strong> {target_record.get('collection_date', 'N/A')}</div><br>
                 <div class="quote-box">"{target_record['raw_text']}"</div>
             </div>
-            """, unsafe_allow_html=True)
+            """)
 
             st.markdown("#### AI Classification Metadata")
             st.markdown(f"""
@@ -1135,7 +1133,7 @@ with tab5:
 # TAB 6: MODEL QUALITY & GOLDEN SET
 # ════════════════════════════════════════════════════════════════════════════════
 with tab6:
-    st.markdown('<div class="section-header">Model Quality & Benchmark Benchmark (20-Case Golden Evaluation)</div>', unsafe_allow_html=True)
+    render_html('<div class="section-header">Model Quality & Benchmark Benchmark (20-Case Golden Evaluation)</div>')
     st.caption("Standardized test suite evaluating classifier precision, edge case disambiguation, and hallucination guardrails.")
 
     if st.button("Re-Run 20-Case Benchmark Evaluation"):
@@ -1156,14 +1154,14 @@ with tab6:
     with ek5:
         st.metric("Status Match", f"{eval_results['continuation_status_agreement_pct']}%")
 
-    st.markdown(f"**Benchmark Status:** {'<span class=\"badge badge-green\">READY TO PRESENT: 95.0% Agreement Benchmark Achieved</span>' if eval_results['overall_case_agreement_pct'] >= 80 else '<span class=\"badge badge-amber\">REFINEMENT RECOMMENDED</span>'}", unsafe_allow_html=True)
+    render_html(f"<div><strong>Benchmark Status:</strong> {'<span class=\"badge badge-green\">READY TO PRESENT: 95.0% Agreement Benchmark Achieved</span>' if eval_results['overall_case_agreement_pct'] >= 80 else '<span class=\"badge badge-amber\">REFINEMENT RECOMMENDED</span>'}</div>")
     st.caption(f"Methodological Scope: {eval_results['sample_limitations']}")
 
     # Documented Historical Corrections
-    st.markdown('<div class="section-header">Historical Calibration (Documented Edge Cases)</div>', unsafe_allow_html=True)
+    render_html('<div class="section-header">Historical Calibration (Documented Edge Cases)</div>')
     st.caption("Specific challenging instances where researcher corrections calibrated model boundaries against false positives.")
     for doc in DOCUMENTED_HUMAN_CORRECTIONS:
-        st.markdown(f"""
+        render_html(f"""
         <div class="insight-box" style="border-left:4px solid {FINTECH_AMBER};">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
                 <strong>Test Case ID: <code>{doc.get('record_id', doc.get('case_id'))}</code></strong>
@@ -1176,10 +1174,10 @@ with tab6:
                 <strong>Methodological Correction:</strong> {doc['rejection_reason']}
             </div>
         </div>
-        """, unsafe_allow_html=True)
+        """)
 
     # Detailed Golden Set Results Table
-    st.markdown('<div class="section-header">Granular 20-Case Test Suite Results</div>', unsafe_allow_html=True)
+    render_html('<div class="section-header">Granular 20-Case Test Suite Results</div>')
     target_cols = ['case_id', 'edge_case_type', 'expected_category', 'ai_category', 'expected_status', 'ai_status', 'case_passed']
     raw_cases_df = pd.DataFrame(eval_results['detailed_cases'])
     cases_df = raw_cases_df[[c for c in target_cols if c in raw_cases_df.columns]].copy()
@@ -1190,7 +1188,7 @@ with tab6:
 # TAB 7: DATA MANAGEMENT
 # ════════════════════════════════════════════════════════════════════════════════
 with tab7:
-    st.markdown('<div class="section-header">Data Management & Ingestion Pipelines</div>', unsafe_allow_html=True)
+    render_html('<div class="section-header">Data Management & Ingestion Pipelines</div>')
     st.caption("Incrementally ingest external CSV/JSON datasets or record qualitative interview transcripts.")
 
     ing_col1, ing_col2 = st.columns(2)
@@ -1284,9 +1282,9 @@ with tab7:
 
 # ── Footer ─────────────────────────────────────────────────────────────────────
 st.divider()
-st.markdown(f"""
+render_html(f"""
 <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.78rem;color:{FINTECH_MUTED};flex-wrap:wrap;padding:6px 0 20px 0;">
     <div><strong>Groww SIP Discovery Engine</strong> · PM Fellowship Case Study · 12-Month Mutual Fund Continuation in India</div>
     <div>Corpus: <strong>{len(df):,} total records</strong> · <strong>{relevant_count:,} verified signals</strong> · Benchmark: <strong>95.0% Grounded Accuracy</strong></div>
 </div>
-""", unsafe_allow_html=True)
+""")
