@@ -686,7 +686,9 @@ with tab6:
 
     # Detailed Golden Set Results Table
     st.markdown('<div class="section-header">Detailed 20-Case Test Results</div>', unsafe_allow_html=True)
-    cases_df = pd.DataFrame(eval_results['detailed_cases']).copy()
+    target_cols = ['case_id', 'edge_case_type', 'expected_category', 'ai_category', 'expected_status', 'ai_status', 'case_passed']
+    raw_cases_df = pd.DataFrame(eval_results['detailed_cases'])
+    cases_df = raw_cases_df[[c for c in target_cols if c in raw_cases_df.columns]].copy()
     cases_df.columns = ['Test ID', 'Test Type', 'Expected Issue', 'AI Guess Issue', 'Expected Status', 'AI Guess Status', 'Passed?']
     st.dataframe(cases_df, use_container_width=True)
 
