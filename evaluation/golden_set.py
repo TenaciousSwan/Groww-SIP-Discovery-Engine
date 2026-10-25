@@ -1,6 +1,6 @@
 """
 Golden Set & Ground-Truth AI Evaluation Framework for 12-Month SIP Continuation.
-Adheres to Section 11 of the Fellowship Research Assignment.
+Groww Mutual Funds Product Diagnostics: 20-Case Production Golden Evaluation Suite.
 Evaluates 20 representative test cases covering all edge cases, ambiguous inputs, and multi-label decisions.
 """
 

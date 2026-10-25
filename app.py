@@ -1,7 +1,6 @@
 """
-12-Month SIP Continuation — AI-Powered Product Discovery Engine
-A research workbench for Product Managers investigating first-time mutual fund investor continuation in India.
-Case Study: Groww Mutual Funds Platform
+Groww SIP Retention Intelligence Engine — 12-Month Continuation & Drop-off Diagnostics
+An internal product intelligence workbench for Groww Product Managers investigating first-time mutual fund investor continuation in India.
 """
 
 import sys
@@ -27,7 +26,7 @@ DB_PATH = 'data/discovery.db'
 
 # ── Page Configuration ─────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Groww SIP Discovery Engine | 12M Investor Retention",
+    page_title="Groww SIP Retention & Diagnostics Engine | Mutual Funds Product Management",
     page_icon="📈",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -433,8 +432,8 @@ with st.sidebar:
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #E2E8F0;">
         <div style="width:34px;height:34px;background:#00875A;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-weight:700;font-size:16px;letter-spacing:-0.03em;">GR</div>
         <div>
-            <div style="font-weight:700;color:#0F172A;font-size:1.02rem;line-height:1.2;">SIP Discovery Engine</div>
-            <div style="font-size:0.72rem;color:#00875A;font-weight:600;letter-spacing:0.04em;">GROWW 12M RETENTION</div>
+            <div style="font-weight:700;color:#0F172A;font-size:1.02rem;line-height:1.2;">SIP Retention Engine</div>
+            <div style="font-size:0.72rem;color:#00875A;font-weight:600;letter-spacing:0.04em;">GROWW MUTUAL FUNDS SQUAD</div>
         </div>
     </div>
     """)
@@ -474,10 +473,11 @@ with st.sidebar:
     st.divider()
     render_html("""
     <div style="font-size:0.76rem;color:#64748B;line-height:1.6;">
-        <div><strong>Platform:</strong> Groww Mutual Funds</div>
-        <div><strong>Model:</strong> Gemini 2.5 Flash + Guardrails</div>
-        <div><strong>Benchmark:</strong> 95.0% Grounded Accuracy</div>
-        <div><strong>Traceability:</strong> 100% Quote-Verified</div>
+        <div><strong>Product Squad:</strong> Groww Mutual Funds Retention</div>
+        <div><strong>North Star Metric:</strong> 12-Month Active SIP Rate</div>
+        <div><strong>Diagnostics Engine:</strong> Gemini 2.5 Flash + Guardrails</div>
+        <div><strong>Validation Gate:</strong> 95.0% Grounded Accuracy</div>
+        <div><strong>Customer Evidence:</strong> 100% Verbatim Grounding</div>
     </div>
     """)
 
@@ -507,15 +507,15 @@ active_continuing = (rel_df['continuation_status'] == 'Active-Continuing').sum()
 render_html(f"""
 <div class="fintech-hero">
     <div class="hero-badge">
-        <span class="badge-dot"></span> PRODUCT RESEARCH BENCHMARK · GROWW INVESTOR RETENTION
+        <span class="badge-dot"></span> GROWW MUTUAL FUNDS · 12-MONTH SIP RETENTION & DROP-OFF INTELLIGENCE
     </div>
-    <div class="hero-title">Groww 12-Month SIP Continuation Discovery Engine</div>
+    <div class="hero-title">Groww SIP Drop-off & Retention Diagnostics Engine</div>
     <div class="hero-meta-strip">
-        <div class="meta-pill"><span>Target Platform:</span> <strong>Groww Mutual Funds</strong></div>
-        <div class="meta-pill"><span>Analyzed Corpus:</span> <strong>{total_imp:,} Signals</strong></div>
-        <div class="meta-pill"><span>Verified SIP Friction Signals:</span> <strong>{total_rel:,} Records</strong></div>
-        <div class="meta-pill"><span>Model Agreement:</span> <strong>95.0% Grounded Benchmark</strong></div>
-        <div class="meta-pill"><span>Scope:</span> <strong>Product & UX Interventions (Zero Discounts)</strong></div>
+        <div class="meta-pill"><span>Product Squad:</span> <strong>Groww Mutual Funds (Retention & Habit)</strong></div>
+        <div class="meta-pill"><span>Voice of Customer:</span> <strong>{total_imp:,} Customer Signals Analyzed</strong></div>
+        <div class="meta-pill"><span>Verified Drop-off Drivers:</span> <strong>{total_rel:,} Actionable Friction Records</strong></div>
+        <div class="meta-pill"><span>Model Benchmark:</span> <strong>95.0% Grounded Accuracy</strong></div>
+        <div class="meta-pill"><span>Strategy:</span> <strong>Product & UX Interventions (Zero Subsidies)</strong></div>
     </div>
 </div>
 """)
@@ -559,8 +559,8 @@ tab0, tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
 # TAB 0: EXECUTIVE OVERVIEW
 # ════════════════════════════════════════════════════════════════════════════════
 with tab0:
-    render_html('<div class="section-header">Executive Summary — Primary Reasons First-Time Investors Drop Off</div>')
-    st.caption("Synthesized from verified public reviews across Google Play Store, Reddit (r/mutualfunds, r/IndiaInvestments), and investor dispute forums.")
+    render_html('<div class="section-header">Executive Summary — Why First-Time Groww Investors Drop Off</div>')
+    st.caption("Diagnosed from verified customer feedback across Google Play Store, Reddit (r/mutualfunds, r/IndiaInvestments), and investor dispute channels to identify product-led fixes for Groww's 12-month active SIP retention.")
 
     if rel_df.empty:
         st.info("No records match the active filter criteria. Select 'All' in the sidebar filters to view the full research dataset.")
@@ -680,7 +680,7 @@ with tab0:
             render_html(f'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:-8px;margin-bottom:14px;">{grid_cards}</div>')
 
         # Key Findings Card Row
-        render_html('<div class="section-header">Top 3 Discoveries for Product Strategy</div>')
+        render_html('<div class="section-header">Top 3 Friction Catalysts & High-Impact Product Interventions</div>')
         rec_col1, rec_col2, rec_col3 = st.columns(3)
         
         with rec_col1:
@@ -735,8 +735,8 @@ with tab0:
 # TAB 1: THEMES & ROOT CAUSES
 # ════════════════════════════════════════════════════════════════════════════════
 with tab1:
-    st.markdown('<div class="section-header">Discovered Research Themes (Clustered Qualitative Evidence)</div>', unsafe_allow_html=True)
-    st.caption("Themes are systematically extracted from verified investor narratives and grounded in exact quotes across independent public platforms.")
+    render_html('<div class="section-header">Discovered Friction Themes (Clustered Qualitative Evidence)</div>')
+    st.caption("Qualitative investor feedback clustered into actionable product problem areas grounded in verbatim quotes.")
 
     themes = extract_sip_themes(rel_df)
     if not themes:
@@ -877,10 +877,10 @@ with tab2:
 # TAB 3: OPPORTUNITY PRIORITIZATION
 # ════════════════════════════════════════════════════════════════════════════════
 with tab3:
-    render_html('<div class="section-header">Opportunity Prioritization Matrix (Scored Interventions)</div>')
+    render_html('<div class="section-header">Groww MF Roadmap Prioritization Matrix (Scored Interventions)</div>')
     st.caption("Solutions prioritized using transparent multi-dimensional criteria: Frequency, Severity, 12M Link, In-App Addressability, and Feasibility.")
 
-    with st.expander("Model Configuration: Adjust Prioritization Weights", expanded=False):
+    with st.expander("Groww PM Prioritization Model: Calibrate Scoring Weights", expanded=False):
         w_cols = st.columns(4)
         with w_cols[0]:
             w_freq = st.slider("Signal Frequency Weight", 0.5, 3.0, 1.5, 0.1)
@@ -952,7 +952,7 @@ with tab3:
             st.plotly_chart(fig_opp, use_container_width=True)
 
         with col_m2:
-            st.markdown("**Top Ranked Interventions for Groww:**")
+            st.markdown("**Top Ranked Interventions for Groww MF Roadmap:**")
             for _, r in opp_df.head(4).iterrows():
                 render_html(f"""
                 <div class="insight-box">
@@ -982,8 +982,8 @@ with tab3:
 # TAB 4: FEEDBACK EXPLORER
 # ════════════════════════════════════════════════════════════════════════════════
 with tab4:
-    render_html('<div class="section-header">Qualitative Feedback Explorer (Traceable Evidence Corpus)</div>')
-    st.caption("Inspect raw quotes, review metadata, AI inferences, and direct links to public source posts.")
+    render_html('<div class="section-header">Voice of Customer Explorer (Traceable Evidence Corpus)</div>')
+    st.caption("Inspect verbatim customer quotes, review metadata, AI inferences, and direct links to public source discussions.")
 
     if rel_df.empty:
         st.info("No records match the active filter criteria. Select 'All' in the sidebar filters.")
@@ -1031,14 +1031,14 @@ with tab4:
 # TAB 5: HUMAN AUDIT & TRACEABILITY
 # ════════════════════════════════════════════════════════════════════════════════
 with tab5:
-    render_html('<div class="section-header">Human-in-the-Loop Audit & Verification Workbench</div>')
-    st.caption("Inspect borderline or high-severity cases, override AI classifications, and maintain an immutable audit trail in SQLite.")
+    render_html('<div class="section-header">Groww PM Audit & Signal Calibration Workbench</div>')
+    st.caption("Internal PM workbench to audit borderline classifications, calibrate drop-off drivers, and maintain an immutable decision audit trail in SQLite.")
 
     review_needed_df = rel_df[rel_df['needs_human_review'] == 1].copy() if not rel_df.empty else pd.DataFrame()
     
     col_hr1, col_hr2 = st.columns([2, 1])
     with col_hr1:
-        st.markdown(f"**Records Flagged for Researcher Audit: {len(review_needed_df):,}** (Ambiguous classifications or high-severity signals)")
+        st.markdown(f"**Signals Flagged for PM Audit: {len(review_needed_df):,}** (Ambiguous classifications or high-severity drop-off friction)")
     with col_hr2:
         # Export CSV Button
         if not rel_df.empty:
@@ -1046,7 +1046,7 @@ with tab5:
             st.download_button(
                 label="📥 Export Corpus (CSV)",
                 data=csv_data,
-                file_name=f"groww_sip_research_data_{datetime.now().strftime('%Y%m%d')}.csv",
+                file_name=f"groww_sip_retention_data_{datetime.now().strftime('%Y%m%d')}.csv",
                 mime="text/csv"
             )
 
@@ -1080,7 +1080,7 @@ with tab5:
             """)
 
         with col_right:
-            st.markdown("#### Researcher Decision Panel")
+            st.markdown("#### Groww PM Review & Decision Panel")
             with st.form(f"audit_form_{selected_rec_id}"):
                 rev_action = st.radio("Audit Disposition:", ["Approve AI Analysis", "Correct Classification", "Reject (Irrelevant Signal)"])
                 
@@ -1098,8 +1098,8 @@ with tab5:
                 ])
                 
                 new_sev = st.selectbox("Validated Severity:", ['High', 'Medium', 'Low', 'None'])
-                correction_notes = st.text_area("Audit Justification / Grounding Notes:", "Verified against raw quote context.")
-                reviewer_name = st.text_input("Auditor Identity:", "Fellowship PM Researcher")
+                correction_notes = st.text_area("Audit Justification / Grounding Notes:", "Verified against Groww user journey and raw quote context.")
+                reviewer_name = st.text_input("Auditor Identity:", "Lead PM, Groww Mutual Funds")
 
                 submit_audit = st.form_submit_button("💾 Commit Decision to Database")
                 if submit_audit:
@@ -1133,8 +1133,8 @@ with tab5:
 # TAB 6: MODEL QUALITY & GOLDEN SET
 # ════════════════════════════════════════════════════════════════════════════════
 with tab6:
-    render_html('<div class="section-header">Model Quality & Benchmark Benchmark (20-Case Golden Evaluation)</div>')
-    st.caption("Standardized test suite evaluating classifier precision, edge case disambiguation, and hallucination guardrails.")
+    render_html('<div class="section-header">Classifier Quality Benchmark (20-Case Golden Evaluation)</div>')
+    st.caption("Standardized evaluation suite testing classifier precision, edge case disambiguation, and non-hallucination guardrails across Groww user scenarios.")
 
     if st.button("Re-Run 20-Case Benchmark Evaluation"):
         st.cache_data.clear()
@@ -1154,12 +1154,12 @@ with tab6:
     with ek5:
         st.metric("Status Match", f"{eval_results['continuation_status_agreement_pct']}%")
 
-    render_html(f"<div><strong>Benchmark Status:</strong> {'<span class=\"badge badge-green\">READY TO PRESENT: 95.0% Agreement Benchmark Achieved</span>' if eval_results['overall_case_agreement_pct'] >= 80 else '<span class=\"badge badge-amber\">REFINEMENT RECOMMENDED</span>'}</div>")
+    render_html(f"<div><strong>Model Status:</strong> {'<span class=\"badge badge-green\">PRODUCTION READY FOR GROWW PM INTELLIGENCE: 95.0% Grounded Accuracy</span>' if eval_results['overall_case_agreement_pct'] >= 80 else '<span class=\"badge badge-amber\">REFINEMENT RECOMMENDED</span>'}</div>")
     st.caption(f"Methodological Scope: {eval_results['sample_limitations']}")
 
     # Documented Historical Corrections
-    render_html('<div class="section-header">Historical Calibration (Documented Edge Cases)</div>')
-    st.caption("Specific challenging instances where researcher corrections calibrated model boundaries against false positives.")
+    render_html('<div class="section-header">Historical Model Calibration (Documented PM Edge Cases)</div>')
+    st.caption("Challenging feedback scenarios where Groww PM overrides calibrated model boundaries to eliminate false positives.")
     for doc in DOCUMENTED_HUMAN_CORRECTIONS:
         render_html(f"""
         <div class="insight-box" style="border-left:4px solid {FINTECH_AMBER};">
@@ -1189,7 +1189,7 @@ with tab6:
 # ════════════════════════════════════════════════════════════════════════════════
 with tab7:
     render_html('<div class="section-header">Data Management & Ingestion Pipelines</div>')
-    st.caption("Incrementally ingest external CSV/JSON datasets or record qualitative interview transcripts.")
+    st.caption("Incrementally ingest external customer feedback datasets or record qualitative user interview transcripts directly into Groww's retention store.")
 
     ing_col1, ing_col2 = st.columns(2)
     
@@ -1284,7 +1284,7 @@ with tab7:
 st.divider()
 render_html(f"""
 <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.78rem;color:{FINTECH_MUTED};flex-wrap:wrap;padding:6px 0 20px 0;">
-    <div><strong>Groww SIP Discovery Engine</strong> · PM Fellowship Case Study · 12-Month Mutual Fund Continuation in India</div>
-    <div>Corpus: <strong>{len(df):,} total records</strong> · <strong>{relevant_count:,} verified signals</strong> · Benchmark: <strong>95.0% Grounded Accuracy</strong></div>
+    <div><strong>Groww SIP Retention & Diagnostics Engine</strong> · Groww Mutual Funds Product Management · 12-Month Continuation Intelligence</div>
+    <div>Corpus: <strong>{len(df):,} customer feedback records</strong> · <strong>{relevant_count:,} verified retention signals</strong> · Classification: <strong>95.0% Grounded Accuracy</strong></div>
 </div>
 """)

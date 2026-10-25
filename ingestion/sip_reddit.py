@@ -233,7 +233,7 @@ def _fetch_reddit_subreddit(subreddit, query, limit=20):
         "restrict_sr": 1
     })
     url = f"https://www.reddit.com/r/{subreddit}/search.json?{query_params}"
-    headers = {"User-Agent": "GrowwSIPResearchBot/1.0 (PM Fellowship Research)"}
+    headers = {"User-Agent": "GrowwSIPProductResearch/1.0 (Groww Mutual Funds PM)"}
     req = urllib.request.Request(url, headers=headers)
     try:
         with urllib.request.urlopen(req, timeout=10) as resp:

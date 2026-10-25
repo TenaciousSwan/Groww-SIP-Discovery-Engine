@@ -1,7 +1,7 @@
-# 12-Month SIP Continuation AI Discovery Engine — PM Fellowship Demo Guide
+# Groww 12-Month SIP Retention & Diagnostics Engine — Product Management Walkthrough
 
 ## 1. Problem & Objective
-* **Business Objective:** Increase the percentage of first-time mutual fund investors in India who maintain an active SIP 12 months after starting their first SIP (defined as having at least one successful instalment in the last 30 days).
+* **Business Objective:** Increase the percentage of first-time mutual fund investors on Groww who maintain an active SIP 12 months after starting their first SIP (defined as having at least one successful instalment in the last 30 days).
 * **Research Core Question:** Why do first-time investors start SIPs with good intentions, but later pause, reduce, cancel, or abandon them?
 * **Common Misconception vs Reality:** Industry observers assume dropouts occur solely because "markets fell." Our research engine reveals operational friction, rigid mandate dates, ECS penalty traps, and settlement confusion often cause discontinuation before market returns even matter.
 
@@ -33,7 +33,7 @@
 * **Highlight:** No fabricated quotes or phantom demographic claims.
 
 ### Tab 5: Human Review & Audit Workbench
-* **Point out:** How a PM fellow can inspect records flagged with `needs_human_review = True`, approve, correct category or status, and log reviewer notes.
+* **Point out:** How the Groww Mutual Funds PM can inspect records flagged with `needs_human_review = True`, approve, calibrate category or status, and log review justification notes.
 * **Demonstrate:** Show the separate storage of human corrections in `sip_human_reviews` table and the "Export Reviewed Findings to CSV" button.
 
 ### Tab 6: AI Quality & Golden Set

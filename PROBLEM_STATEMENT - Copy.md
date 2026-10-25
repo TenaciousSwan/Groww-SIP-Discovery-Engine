@@ -1,7 +1,7 @@
 # Problem Statement & Engine Goals: Groww 12-Month SIP Continuation
 
 ## 1. Executive Summary & Core Challenge
-* **Fellowship Project:** Product Management Teardown on Improving 12-Month SIP Continuation Among First-Time Mutual Fund Investors on GROWW.
+* **Product Initiative:** Groww Mutual Funds Squad Initiative — Diagnosing and Improving 12-Month SIP Continuation Among First-Time Mutual Fund Investors.
 * **Target Application:** Groww (`com.nextbillion.groww` — India's largest retail investment platform).
 * **The Business Objective:** Increase the percentage of first-time mutual fund investors on Groww who still maintain an active SIP 12 months after starting their first SIP.
 * **Metric Definition of Active SIP:** At least one successful monthly SIP instalment completed in the last 30 days.

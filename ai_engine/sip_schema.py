@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Literal, Optional, List
 
 class SIPPresetCategory:
-    """Canonical SIP Taxonomy Categories matching Fellowship Assignment Section 6."""
+    """Canonical SIP Taxonomy Categories for Groww Mutual Funds Product Discovery."""
     INITIATION = "SIP Initiation"
     EXPECTATIONS = "Expectations"
     POST_INITIATION_BEHAVIOUR = "Post-Initiation Behaviour"
@@ -15,7 +15,7 @@ class SIPPresetCategory:
 
 class SIPInsightSchema(BaseModel):
     """
-    PM-grade classification schema for 12-Month SIP Continuation Discovery.
+    PM-grade classification schema for Groww 12-Month SIP Continuation Discovery.
     Focuses on understanding WHY first-time mutual fund investors continue or drop out.
     """
 

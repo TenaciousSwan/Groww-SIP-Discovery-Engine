@@ -1,6 +1,6 @@
 """
 Theme Discovery, Evidence Synthesis, and Counterexample Tracker for SIP Continuation.
-Adheres to Section 8 of the Fellowship Research Assignment.
+Groww Mutual Funds Product Discovery & Qualitative Synthesis Engine.
 """
 
 import pandas as pd

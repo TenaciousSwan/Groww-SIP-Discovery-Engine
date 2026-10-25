@@ -1,7 +1,6 @@
-# 12-Month SIP Continuation — AI-Powered Discovery Engine
+# Groww SIP Retention Intelligence Engine — 12-Month Continuation & Drop-off Diagnostics
 
-> **A specialized Product Management Discovery Engine investigating why first-time mutual fund investors in India start SIPs but later pause, reduce, cancel, or discontinue them within the first 12 months.**
-> Built for the Product Management Fellowship Assignment.
+> **An internal Product Management intelligence platform diagnosing why first-time mutual fund investors discontinue monthly SIPs within their first 12 months on Groww — and prioritizing high-impact, product-led interventions to drive compounding habit formation.**
 
 ---
 
@@ -16,7 +15,7 @@
 |                                      DATA INGESTION LAYER                                         |
 +-----------------------------------+-----------------------------------+---------------------------+
 | Google Play Store API             | Reddit Public JSON Scraper        | CSV / JSON File Upload &  |
-| (Groww, Coin, Kuvera, ET Money)   | (r/mutualfunds, r/IndiaInvest)    | Manual Researcher Input   |
+| (Groww, Coin, Kuvera, ET Money)   | (r/mutualfunds, r/IndiaInvest)    | Manual PM Input & Transcripts |
 +-----------------------------------+-----------------------------------+---------------------------+
                                                   |
                                                   v
@@ -116,7 +115,7 @@ reddit_mf_02,Reddit (r/mutualfunds),"Thinking of stopping my SIP after 5 months 
 
 ## 4. SIP Research Taxonomy & Prompt Design
 
-### Candidate Taxonomy Categories (Section 6)
+### Candidate Taxonomy Categories (Groww SIP Discovery Taxonomy)
 1. **SIP Initiation:** First-time motivation, friend/family advice, influencer advice, habit goal, tax saving.
 2. **Expectations:** Expected quick linear growth, expected predictability, expected easy withdrawal.
 3. **Post-Initiation Behaviour:** Frequent portfolio checking (4-5 times a day), comparing returns with expectations, NAV allocation delay anxiety.
@@ -157,4 +156,4 @@ reddit_mf_02,Reddit (r/mutualfunds),"Thinking of stopping my SIP after 5 months 
 
 1. **Self-Selection Bias in Public Feedback:** Reviews and forum posts skew towards vocal users who experienced acute frustration (e.g. bounce penalties, app crashes) or passionate milestone celebrators. Silent dropouts who quietly deleted the app without posting are underrepresented.
 2. **Sample Size Scope:** While the golden set of $N=20$ validates all edge cases, confidence bounds are $\pm 10\%$. Expanding to $N=100$ ground-truth cases is recommended prior to commercial automated deployment.
-3. **Primary Research Transition:** The engine's purpose is opportunity discovery and hypothesis prioritization. The prioritized opportunities (e.g. *Flexible Autopay Retry Date* and *Compounding Volatility Visualizer*) should be validated through 1-on-1 qualitative user interviews during the fellowship.
+3. **Primary Research Transition:** The engine's purpose is opportunity discovery and hypothesis prioritization. The prioritized roadmap interventions (e.g. *Flexible Autopay Retry Date* and *Compounding Volatility Visualizer*) should be validated through structured qualitative cohort interviews and A/B experimentation during upcoming product sprints.

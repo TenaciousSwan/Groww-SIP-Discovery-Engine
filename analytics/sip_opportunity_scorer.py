@@ -1,6 +1,6 @@
 """
 Opportunity Prioritization Framework for 12-Month SIP Continuation.
-Transparent, multi-dimensional scoring grounded in Section 9 of the Fellowship Assignment.
+Transparent, multi-dimensional scoring for Groww Mutual Funds Product Prioritization.
 """
 
 import sqlite3
