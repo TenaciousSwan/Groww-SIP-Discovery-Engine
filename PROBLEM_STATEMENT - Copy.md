@@ -1,36 +1,38 @@
- # Problem Statement & Engine Goals
+# Problem Statement & Engine Goals: Groww 12-Month SIP Continuation
 
-## What We Are Building
-An automated, AI-powered **Discovery Engine** that listens to what real shoppers are saying across the internet—on app stores, Reddit, YouTube, and fashion communities. 
-
-The engine collects unstructured user conversations, reads through thousands of reviews and discussions, and automatically organizes them into clear patterns. It pinpoints exactly why people add fashion items to their Myntra wishlists but end up never buying them, without relying on discounts or price cuts.
-
----
-
-## Who It Is For
-* **Product Managers on the Growth Team at Myntra:** To discover root-cause friction points in the user journey and prioritize product features based on hard user evidence.
-* **UX Researchers & Designers:** To understand the emotional, informational, and functional gaps users experience while looking at their saved items.
-* **Engineering & Data Teams:** To have a clear, structured pipeline that translates noisy web data into actionable product inputs.
+## 1. Executive Summary & Core Challenge
+* **Fellowship Project:** Product Management Teardown on Improving 12-Month SIP Continuation Among First-Time Mutual Fund Investors on GROWW.
+* **Target Application:** Groww (`com.nextbillion.groww` — India's largest retail investment platform).
+* **The Business Objective:** Increase the percentage of first-time mutual fund investors on Groww who still maintain an active SIP 12 months after starting their first SIP.
+* **Metric Definition of Active SIP:** At least one successful monthly SIP instalment completed in the last 30 days.
 
 ---
 
-## The Business Objective
-* **Goal:** Increase the percentage of Myntra users who purchase at least one item from their wishlist within 30 days of adding it.
-* **Constraint:** **Zero monetary incentives.** We cannot use discounts, coupon codes, cashbacks, or price drops. The solution must fix trust, usability, clarity, or decision fatigue.
+## 2. Research Hypothesis & Problem Investigation
+Conventional fintech thinking assumes retail investors drop out because "the market fell." This AI discovery engine investigates the authentic root causes from real public evidence across:
+* **Google Play Store Reviews for Groww** (`com.nextbillion.groww`)
+* **Reddit Communities** (`r/mutualfunds`, `r/IndiaInvestments`, `r/personalfinanceindia`)
+* **Public Investor Forums & Financial Discussion Threads**
+
+### Critical Research Questions Addressed
+1. **Why do investors start their first SIP on Groww?** (Habit goal, family/peer influence, social media influencers, tax-saving ELSS).
+2. **What expectations do they enter with?** (Expectation of quick linear growth, predictability, easy withdrawal vs long-term equity compounding).
+3. **What happens post-initiation?** (Checking Groww portfolio 4–5 times a day, panic on first red market dip, NAV allotment confusion).
+4. **Why do they pause, reduce, or cancel?** (Salary delay colliding with fixed SIP date, bank ECS bounce penalties of ₹250–₹350, unexpected emergency expenses, rigid 48-hour skip rule).
+5. **Where do they seek workarounds?** (Leaving Groww to ask on Reddit, searching YouTube explainers, moving to direct AMC portals/MF Central).
+6. **What enables long-term continuation?** (Salary-aligned debit dates, automated habit discipline, turning off daily market notification noise).
 
 ---
 
-## Key Questions The Engine Must Answer
-1. **Why do people wishlist?** Are they saving items to buy soon, or just using the wishlist as a mood board / visual bookmark?
-2. **What creates hesitation?** What doubts pop up after an item is saved (e.g., fit uncertainty, fabric quality concerns, lack of styling ideas)?
-3. **Where do users go to solve doubt?** Why do they leave Myntra to check YouTube try-on hauls, Reddit reviews, or Instagram before buying?
-4. **How do users compare items?** When someone has 20 items in their wishlist, how do they pick the single one they actually checkout?
-5. **What breaks the decision?** What causes a user to delay a purchase until they forget about it?
+## 3. Product & Non-Monetary Guardrails
+* **No Reliance on Artificial Cashbacks or Subsidies:** The solution must be product-led, educational, and operational.
+* **Strict Epistemic Humility:** Negative sentiment must NOT be assumed to be cancellation unless explicitly stated in text.
+* **Full Verbatim Traceability:** Every insight links directly to raw user quotes, source URLs, timestamps, and confidence scores.
 
 ---
 
-## What Success Looks Like
-* **Data Ingestion:** Automatically fetching at least 1,000+ relevant user discussions and app reviews per week across Play Store, Reddit, and YouTube.
-* **Accurate Classification:** Over 85% accuracy in categorizing why a user hesitated (e.g., "Fit Uncertainty" vs "Fabric/Quality Doubt").
-* **Quantified Insights:** A clean summary showing the top 3-5 friction drivers sorted by frequency, so the team knows exactly what problem to solve first.
-* **Actionable Roadmap:** Clear, non-monetary product concepts ready for prototyping (e.g., user-submitted try-on videos, interactive fit assistance, visual comparison tools).
+## 4. Current Dataset Footprint (data/discovery.db)
+* **Total Records Ingested:** 1,873 records (scrubbed of PII and deduplicated).
+* **Relevant Groww SIP Signals:** 887 verified records across 1★ to 5★ ratings and community discussions.
+* **Primary Drop-off Friction:** Bank Mandate / Autopay Failures and Salary Delay Penalties (#1 operational blocker).
+* **Golden Set Agreement:** 95.0% agreement against 20 ground-truth edge case benchmarks.
