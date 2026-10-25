@@ -26,7 +26,7 @@ DB_PATH = 'data/discovery.db'
 
 # ── Page Configuration ─────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="SIP Continuation Discovery Engine",
+    page_title="Groww SIP Continuation Discovery Engine",
     page_icon="📈",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -143,23 +143,27 @@ df = get_cached_sip_data()
 
 # ── Sidebar Filters & Controls ────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("## 📈 SIP Discovery Engine")
+    st.markdown("## 📈 Groww SIP Engine")
     st.markdown("**12-Month SIP Continuation Study**")
-    st.caption("Fellowship Research Assignment · Indian Retail Investors")
+    st.caption("Product Management Fellowship · Groww Teardown")
     st.divider()
 
     total_records = len(df)
+    groww_records = int(df['source'].str.contains('Groww', case=False, na=False).sum()) if not df.empty else 0
     relevant_count = int(df['is_sip_continuation_relevant'].sum()) if not df.empty else 0
+    
     st.metric("Total Records Imported", total_records)
+    st.metric("Groww-Specific Signals", groww_records)
     st.metric("Relevant SIP Records", relevant_count)
     
     st.divider()
     st.markdown("### 🔍 Filters")
     
-    # Source filter
-    source_options = ['All']
+    # Source filter with Groww highlighted
+    source_options = ['All', 'Play Store (Groww)', 'Reddit (r/mutualfunds · Groww)', 'Reddit (r/IndiaInvestments · Groww)', 'Reddit (r/personalfinanceindia · Groww)']
     if not df.empty and 'source' in df.columns:
-        source_options += sorted([s for s in df['source'].dropna().unique() if s])
+        other_sources = sorted([s for s in df['source'].dropna().unique() if s and s not in source_options])
+        source_options += other_sources
     sel_source = st.selectbox("Source Platform", source_options)
 
     # Category filter
@@ -177,6 +181,7 @@ with st.sidebar:
     sel_severity = st.selectbox("Friction Severity", sev_options)
 
     st.divider()
+    st.caption("Target App: Groww (com.nextbillion.groww)")
     st.caption("AI Model: Gemini 2.5 Flash + Deterministic Guardrails")
     st.caption("Strict Epistemic Humility Rules Active")
 
@@ -195,8 +200,8 @@ if sel_severity != 'All':
 rel_df = fdf[fdf['is_sip_continuation_relevant'] == 1].copy()
 
 # ── Header & KPI Cards ────────────────────────────────────────────────────────
-st.markdown("# 📈 12-Month SIP Continuation — AI Discovery Engine")
-st.markdown("> **An evidence-grounded research engine investigating why first-time Indian mutual fund investors start SIPs but later pause, reduce, or cancel them.**")
+st.markdown("# 📈 Groww 12-Month SIP Continuation — AI Discovery Engine")
+st.markdown("> **An evidence-grounded research engine investigating why first-time mutual fund investors on GROWW start SIPs but later pause, reduce, cancel, or abandon them.**")
 
 st.divider()
 
@@ -243,8 +248,8 @@ tab0, tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
 # TAB 0: EXECUTIVE OVERVIEW
 # ════════════════════════════════════════════════════════════════════════════════
 with tab0:
-    st.markdown('<div class="section-header">Executive Summary — Core Behavioral Drop-Off Drivers</div>', unsafe_allow_html=True)
-    st.caption("Based on verified public records from Play Store (Groww, Coin, Kuvera, ET Money), Reddit (r/mutualfunds, r/IndiaInvestments), and investor forums.")
+    st.markdown('<div class="section-header">Executive Summary — Core Drop-Off Drivers for Groww SIP Investors</div>', unsafe_allow_html=True)
+    st.caption("Based on verified public records from Groww Play Store reviews (com.nextbillion.groww), Reddit discussions (r/mutualfunds · Groww), and public fintech forums.")
 
     if rel_df.empty:
         st.info("No relevant SIP records match the current filters. Adjust sidebar filters to view insights.")
@@ -283,7 +288,7 @@ with tab0:
             st.plotly_chart(fig_status, use_container_width=True)
 
         # Key Findings Card Row
-        st.markdown('<div class="section-header">Top 3 Critical Insights for 12-Month Continuation</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Top 3 Critical Insights for Groww 12-Month Continuation</div>', unsafe_allow_html=True)
         rec_col1, rec_col2, rec_col3 = st.columns(3)
         
         with rec_col1:
@@ -292,7 +297,7 @@ with tab0:
                 <strong style="color:{CB_VERMILION}">#1 Bank Mandate & Salary Delay Trap</strong><br>
                 <span class="tag">Continuation Barrier</span>
                 <span class="tag">High Severity</span><br><br>
-                First-time investors do not quit because they hate compounding; they quit because rigid SIP debit dates fail when monthly salaries are delayed by 24–48 hours. Banks slap ₹250–₹350 punitive bounce charges, triggering immediate autopay cancellation.
+                First-time Groww investors do not quit because they dislike wealth creation; they quit because rigid autopay debit dates fail when monthly salaries are delayed by 24–48 hours. Banks charge ₹250–₹350 punitive ECS bounce fees, triggering immediate autopay cancellation on Groww.
             </div>
             """, unsafe_allow_html=True)
 
@@ -302,17 +307,17 @@ with tab0:
                 <strong style="color:{CB_ORANGE}">#2 First Market Dip Shock & Linear Bias</strong><br>
                 <span class="tag">Expectation Gap</span>
                 <span class="tag">Months 1–4</span><br><br>
-                First-time investors enter with fixed-deposit mental models expecting steady upward gains. When their first 3–5 instalments display red or negative values, they perceive mutual funds as unsafe gambling and redeem at a loss.
+                First-time investors enter with fixed-deposit mental models expecting steady upward gains. When Groww displays red negative returns during early months, anxiety triggers premature redemption before rupee-cost averaging can take effect.
             </div>
             """, unsafe_allow_html=True)
 
         with rec_col3:
             st.markdown(f"""
             <div class="insight-box" style="border-left:4px solid {CB_GREEN}">
-                <strong style="color:{CB_GREEN}">#3 Missing Step-Down & Pause Mechanisms</strong><br>
+                <strong style="color:{CB_GREEN}">#3 Groww 48-Hour Skip Rule & Missing Step-Down</strong><br>
                 <span class="tag">Product Opportunity</span>
                 <span class="tag">High Feasibility</span><br><br>
-                When life events occur (rent hikes, medical emergencies), apps offer only a blunt "Cancel SIP" button. Providing a 1-to-3 month temporary pause or amount step-down slider preserves the user's folio and saving identity.
+                Users complain that Groww's skip SIP option is blocked if attempted less than 48 hours before debit. When emergencies occur, this rigidity forces bank bounce fees or outright cancellation. Dynamic pause and step-down sliders preserve user folios.
             </div>
             """, unsafe_allow_html=True)
 

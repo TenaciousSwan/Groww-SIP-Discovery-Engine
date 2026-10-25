@@ -1,4 +1,4 @@
-# Problem Statement & Engine Goals
+ # Problem Statement & Engine Goals
 
 ## What We Are Building
 An automated, AI-powered **Discovery Engine** that listens to what real shoppers are saying across the internet—on app stores, Reddit, YouTube, and fashion communities. 
