@@ -5,23 +5,11 @@
 
 ---
 
-## 1. Adaptation Summary (From Myntra Engine to SIP Discovery)
 
-This project adapts an existing e-commerce wishlist discovery engine into an evidence-grounded financial research discovery engine while preserving reusable components:
-
-| Original Myntra Module | Adapted SIP Research Component | Status |
-| :--- | :--- | :--- |
-| **Fashion Taxonomy** (`Fit/Size`, `Fabric/Material`) | **SIP Continuation Taxonomy** (Initiation, Barriers, Enablers, Mandate Failures, Nav Delays) | ✅ Replaced (`ai_engine/sip_schema.py`) |
-| **E-Commerce Prompt** (Wishlist-to-checkout conversion) | **SIP Research Prompt** (Strict evidence rules, non-hallucination of cancellation/continuation) | ✅ Replaced (`ai_engine/sip_prompts.py`) |
-| **Monetary Remap Guardrail** (Drop coupons/discounts) | **Fintech Domain Guardrails** (PII redaction, financial jargon preservation, verbatim quote check) | ✅ Replaced (`ai_engine/sip_guardrails.py`) |
-| **Scrapers** (Apparel reviews, fashion try-on hauls) | **Fintech Ingestion Modules** (Groww, Coin, Kuvera, r/mutualfunds, r/IndiaInvestments, TradingQ&A) | ✅ Adapted (`ingestion/sip_*`) |
-| **Dashboard** (Wishlist mode, fashion friction) | **SIP Research Workbench** (12-Month Journey, Opportunity Matrix, Evidence Explorer, Golden Set) | ✅ Replaced (`app.py`) |
-| **Database** (SQLite `raw_conversations`, `enriched_insights`) | **Migrated Database** (`raw_conversations`, `sip_enriched_insights`, `sip_human_reviews`) | ✅ Preserved & Extended |
-| **Testing** (No tests committed) | **Automated Pytest Suite + 20-Case Golden Set Benchmark** | ✅ Added (`tests/`, `evaluation/`) |
 
 ---
 
-## 2. Architecture Diagram
+##1. Architecture Diagram
 
 ```
 +---------------------------------------------------------------------------------------------------+
@@ -72,7 +60,7 @@ This project adapts an existing e-commerce wishlist discovery engine into an evi
 
 ---
 
-## 3. How to Run the Application Locally
+## 2. How to Run the Application Locally
 
 ### Prerequisites
 - Python 3.10+ (tested on Python 3.13)
@@ -106,7 +94,7 @@ python -m pytest tests/
 
 ---
 
-## 4. Instructions for Importing Real Research Records
+## 3. Instructions for Importing Real Research Records
 
 ### Method A: Direct File Upload in Dashboard
 1. Open the dashboard and navigate to the **"📥 Ingestion Workbench"** tab.
@@ -126,7 +114,7 @@ reddit_mf_02,Reddit (r/mutualfunds),"Thinking of stopping my SIP after 5 months 
 
 ---
 
-## 5. SIP Research Taxonomy & Prompt Design
+## 4. SIP Research Taxonomy & Prompt Design
 
 ### Candidate Taxonomy Categories (Section 6)
 1. **SIP Initiation:** First-time motivation, friend/family advice, influencer advice, habit goal, tax saving.
@@ -145,7 +133,7 @@ reddit_mf_02,Reddit (r/mutualfunds),"Thinking of stopping my SIP after 5 months 
 
 ---
 
-## 6. Golden Set Evaluation Results (20 Ground-Truth Test Cases)
+## 5. Golden Set Evaluation Results (20 Ground-Truth Test Cases)
 
 | Evaluation Metric | Benchmark Target | Actual Measured Score | Gate Status |
 | :--- | :--- | :--- | :--- |
@@ -165,7 +153,7 @@ reddit_mf_02,Reddit (r/mutualfunds),"Thinking of stopping my SIP after 5 months 
 
 ---
 
-## 7. Known Limitations & Research Scope
+## 6. Known Limitations & Research Scope
 
 1. **Self-Selection Bias in Public Feedback:** Reviews and forum posts skew towards vocal users who experienced acute frustration (e.g. bounce penalties, app crashes) or passionate milestone celebrators. Silent dropouts who quietly deleted the app without posting are underrepresented.
 2. **Sample Size Scope:** While the golden set of $N=20$ validates all edge cases, confidence bounds are $\pm 10\%$. Expanding to $N=100$ ground-truth cases is recommended prior to commercial automated deployment.
