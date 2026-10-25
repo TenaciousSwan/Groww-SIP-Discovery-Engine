@@ -73,14 +73,14 @@ CB_SKYBLUE   = FINTECH_BLUE
 OKABE_ITO    = FINTECH_PALETTE
 SEV_COLORS   = {"High": FINTECH_RED, "Medium": FINTECH_AMBER, "Low": FINTECH_GREEN, "None": FINTECH_MUTED}
 
-def base_layout(height=340):
+def base_layout(height=340, margin=None):
     """Reusable, accessible Plotly chart layout for a pristine light fintech canvas."""
     return dict(
         paper_bgcolor="#FFFFFF",
         plot_bgcolor="#FFFFFF",
         font=dict(family="Inter, -apple-system, BlinkMacSystemFont, sans-serif", color=FINTECH_DARK_NAVY, size=12),
         height=height,
-        margin=dict(l=16, r=16, t=38, b=16),
+        margin=margin or dict(l=16, r=16, t=16, b=16),
         legend=dict(
             bgcolor="rgba(255,255,255,0.9)",
             bordercolor="#E2E8F0",
@@ -139,9 +139,9 @@ st.markdown("""
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
         border-radius: 10px;
-        padding: 24px 28px;
-        margin-bottom: 20px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        padding: 22px 26px;
+        margin-bottom: 18px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
     }
     .hero-badge {
         display: inline-flex;
@@ -166,25 +166,18 @@ st.markdown("""
         display: inline-block;
     }
     .hero-title {
-        font-size: 1.75rem;
+        font-size: 1.7rem;
         font-weight: 700;
         color: #0F172A;
         margin: 0 0 12px 0;
         letter-spacing: -0.02em;
         line-height: 1.25;
     }
-    .hero-tagline {
-        font-size: 0.94rem;
-        color: #475569;
-        line-height: 1.55;
-        margin: 0 0 16px 0;
-        max-width: 980px;
-    }
     .hero-meta-strip {
         display: flex;
         gap: 8px;
         flex-wrap: wrap;
-        padding-top: 14px;
+        padding-top: 12px;
         border-top: 1px solid #F1F5F9;
     }
     .meta-pill {
@@ -205,14 +198,18 @@ st.markdown("""
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
         border-radius: 8px;
-        padding: 16px 14px;
+        padding: 16px 14px 14px 14px;
         text-align: left;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+        min-height: 114px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
     .kpi-card:hover {
         transform: translateY(-1px);
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
     }
     .kpi-value {
         font-size: 1.85rem;
@@ -235,19 +232,49 @@ st.markdown("""
         margin-top: 4px;
     }
     
-    /* Section Headers */
-    .section-header {
-        font-size: 0.98rem;
+    /* Chart Card Containers */
+    .chart-card {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 8px;
+        padding: 16px 18px 12px 18px;
+        margin-bottom: 14px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+    .chart-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #F1F5F9;
+    }
+    .chart-card-title {
+        font-size: 0.94rem;
         font-weight: 600;
         color: #0F172A;
-        background: #FFFFFF;
+        letter-spacing: -0.01em;
+    }
+    .chart-card-subtitle {
+        font-size: 0.76rem;
+        color: #64748B;
+        margin-top: 2px;
+    }
+    
+    /* Sleek Section Headers */
+    .section-header {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #0F172A;
+        background: transparent;
         border-left: 3px solid #00875A;
-        border-top: 1px solid #E2E8F0;
-        border-right: 1px solid #E2E8F0;
-        border-bottom: 1px solid #E2E8F0;
-        padding: 10px 16px;
-        margin: 18px 0 12px 0;
-        border-radius: 0 6px 6px 0;
+        border-top: none;
+        border-right: none;
+        border-bottom: none;
+        padding: 2px 0 2px 10px;
+        margin: 22px 0 8px 0;
+        border-radius: 0;
+        letter-spacing: -0.015em;
     }
     
     /* Structured Content Boxes */
@@ -535,38 +562,124 @@ with tab0:
     if rel_df.empty:
         st.info("No records match the active filter criteria. Select 'All' in the sidebar filters to view the full research dataset.")
     else:
-        col_a, col_b = st.columns([3, 2])
+        col_a, col_b = st.columns([1, 1])
         
         with col_a:
             # Primary Category Distribution
             cat_counts = rel_df['primary_category'].value_counts().reset_index()
             cat_counts.columns = ['Category', 'Count']
             cat_counts['%'] = (cat_counts['Count'] / len(rel_df) * 100).round(1)
+            max_cat = cat_counts['%'].max()
+            
+            st.markdown(f"""
+            <div class="chart-card">
+                <div class="chart-card-header">
+                    <div>
+                        <div class="chart-card-title">Friction Category Breakdown</div>
+                        <div class="chart-card-subtitle">Distribution across {len(rel_df):,} verified investor drop-off signals</div>
+                    </div>
+                    <span class="badge badge-slate">Prevalence %</span>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
             
             fig_cat = px.bar(
                 cat_counts, x='%', y='Category', orientation='h',
-                title=f'Friction Category Distribution (% of {len(rel_df)} Verified Signals)',
                 color='Category', color_discrete_sequence=FINTECH_PALETTE,
                 text='%'
             )
-            fig_cat.update_traces(texttemplate='%{text:.1f}%', textposition='outside')
-            fig_cat.update_layout(**base_layout(320), showlegend=False)
+            fig_cat.update_traces(
+                texttemplate=' %{text:.1f}%',
+                textposition='outside',
+                cliponaxis=False,
+                marker=dict(line=dict(width=0))
+            )
+            fig_cat.update_layout(
+                **base_layout(290, margin=dict(l=10, r=42, t=10, b=25)),
+                showlegend=False
+            )
+            fig_cat.update_xaxes(
+                range=[0, max_cat * 1.22],
+                title=dict(text="Share of Verified Records (%)", font=dict(color=FINTECH_MUTED, size=11)),
+                gridcolor="#F1F5F9",
+                linecolor="#E2E8F0",
+                tickfont=dict(color=FINTECH_MUTED, size=10)
+            )
+            fig_cat.update_yaxes(
+                autorange="reversed",
+                gridcolor="#F1F5F9",
+                linecolor="#E2E8F0",
+                tickfont=dict(color=FINTECH_DARK_NAVY, size=11)
+            )
             st.plotly_chart(fig_cat, use_container_width=True)
 
         with col_b:
             # Continuation Status Distribution
-            st.markdown('<div class="section-header">Observed Investor Continuation Status</div>', unsafe_allow_html=True)
             status_counts = rel_df['continuation_status'].value_counts().reset_index()
             status_counts.columns = ['Status', 'Count']
-            
+            status_counts['%'] = (status_counts['Count'] / len(rel_df) * 100).round(1)
+
+            st.markdown(f"""
+            <div class="chart-card">
+                <div class="chart-card-header">
+                    <div>
+                        <div class="chart-card-title">Investor Continuation Status</div>
+                        <div class="chart-card-subtitle">Behavioral outcome verified by exact quote evidence</div>
+                    </div>
+                    <span class="badge badge-green">100% Grounded</span>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            status_color_map = {
+                'At-Risk (Hesitating/Failing)': '#D97706',
+                'Explicitly-Cancelled': '#DC2626',
+                'Active-Continuing': '#00875A',
+                'Explicitly-Paused': '#EA580C',
+                'Unclear / Not-Stated': '#64748B',
+                'Explicitly-Reduced': '#7C3AED'
+            }
+
             fig_status = px.pie(
                 status_counts, names='Status', values='Count',
-                title='Investor Continuation State (Verified by Quote Evidence)',
-                color_discrete_sequence=FINTECH_PALETTE, hole=0.45
+                color='Status',
+                color_discrete_map=status_color_map,
+                hole=0.68
             )
-            fig_status.update_traces(textinfo='label+percent', textfont_size=11)
-            fig_status.update_layout(**base_layout(320))
+            fig_status.update_traces(
+                textinfo='none',
+                hovertemplate="<b>%{label}</b><br>Records: %{value:,}<br>Share: %{percent:.1%}<extra></extra>",
+                marker=dict(line=dict(color='#FFFFFF', width=2))
+            )
+            fig_status.update_layout(
+                **base_layout(195, margin=dict(l=10, r=10, t=10, b=10)),
+                showlegend=False,
+                annotations=[dict(
+                    text=f"<span style='font-size:22px;font-weight:700;color:#0F172A;'>{len(rel_df):,}</span><br><span style='font-size:11px;color:#64748B;font-weight:500;'>Signals</span>",
+                    x=0.5, y=0.5, showarrow=False
+                )]
+            )
             st.plotly_chart(fig_status, use_container_width=True)
+
+            # Compact status breakdown grid below donut
+            grid_items = "".join([
+                f"""
+                <div style="display:flex;align-items:center;justify-content:space-between;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:6px;padding:5px 8px;font-size:0.75rem;">
+                    <div style="display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:{status_color_map.get(r['Status'], '#64748B')};flex-shrink:0;"></span>
+                        <span style="color:#1E293B;font-weight:500;overflow:hidden;text-overflow:ellipsis;">{r['Status']}</span>
+                    </div>
+                    <div style="font-weight:600;color:#0F172A;margin-left:6px;flex-shrink:0;">
+                        {r['Count']:,} <span style="font-weight:400;color:#64748B;">({r['%']}%)</span>
+                    </div>
+                </div>
+                """ for _, r in status_counts.iterrows()
+            ])
+            st.markdown(f"""
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:-8px;margin-bottom:14px;">
+                {grid_items}
+            </div>
+            """, unsafe_allow_html=True)
 
         # Key Findings Card Row
         st.markdown('<div class="section-header">Top 3 Discoveries for Product Strategy</div>', unsafe_allow_html=True)
@@ -574,42 +687,48 @@ with tab0:
         
         with rec_col1:
             st.markdown(f"""
-            <div class="insight-box" style="border-left:4px solid {FINTECH_RED};">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                    <strong style="color:{FINTECH_RED};font-size:0.95rem;">#1 Bank Mandate Bounce Fines</strong>
-                    <span class="badge badge-red">Severe Friction</span>
-                </div>
-                <div style="font-size:0.8rem;color:{FINTECH_MUTED};margin-bottom:10px;">Primary operational catalyst for Year 1 cancellation</div>
-                <div style="color:{FINTECH_BODY};font-size:0.86rem;line-height:1.55;">
-                    Beginners align SIP debits with salary dates (1st–5th). When employer payroll is delayed by 24–48 hours, bank ECS/eNACH debits fail, incurring ₹250–₹350 in bank bounce penalties. Users assume the investing platform levied hidden fees and prematurely cancel their SIP mandates.
+            <div class="insight-box" style="border-left:4px solid {FINTECH_RED};min-height:195px;display:flex;flex-direction:column;justify-content:space-between;">
+                <div>
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                        <strong style="color:{FINTECH_RED};font-size:0.95rem;">#1 Bank Mandate Bounce Fines</strong>
+                        <span class="badge badge-red">Severe Friction</span>
+                    </div>
+                    <div style="font-size:0.8rem;color:{FINTECH_MUTED};margin-bottom:10px;">Primary operational catalyst for Year 1 cancellation</div>
+                    <div style="color:{FINTECH_BODY};font-size:0.86rem;line-height:1.55;">
+                        Beginners align SIP debits with salary dates (1st–5th). When employer payroll is delayed by 24–48 hours, bank ECS/eNACH debits fail, incurring ₹250–₹350 in bank bounce penalties. Users assume the investing platform levied hidden fees and prematurely cancel their SIP mandates.
+                    </div>
                 </div>
             </div>
             """, unsafe_allow_html=True)
 
         with rec_col2:
             st.markdown(f"""
-            <div class="insight-box" style="border-left:4px solid {FINTECH_AMBER};">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                    <strong style="color:{FINTECH_AMBER};font-size:0.95rem;">#2 Early Volatility Shock (M1–M4)</strong>
-                    <span class="badge badge-amber">Expectation Gap</span>
-                </div>
-                <div style="font-size:0.8rem;color:{FINTECH_MUTED};margin-bottom:10px;">Psychological hurdle in the first quarter of investing</div>
-                <div style="color:{FINTECH_BODY};font-size:0.86rem;line-height:1.55;">
-                    First-time investors arrive with fixed-deposit mental models expecting uninterrupted linear growth. Observing -2% to -5% paper drawdown in early months triggers acute anxiety. In the absence of rupee-cost averaging visualizations, beginners halt SIP contributions before compounding can occur.
+            <div class="insight-box" style="border-left:4px solid {FINTECH_AMBER};min-height:195px;display:flex;flex-direction:column;justify-content:space-between;">
+                <div>
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                        <strong style="color:{FINTECH_AMBER};font-size:0.95rem;">#2 Early Volatility Shock (M1–M4)</strong>
+                        <span class="badge badge-amber">Expectation Gap</span>
+                    </div>
+                    <div style="font-size:0.8rem;color:{FINTECH_MUTED};margin-bottom:10px;">Psychological hurdle in the first quarter of investing</div>
+                    <div style="color:{FINTECH_BODY};font-size:0.86rem;line-height:1.55;">
+                        First-time investors arrive with fixed-deposit mental models expecting uninterrupted linear growth. Observing -2% to -5% paper drawdown in early months triggers acute anxiety. In the absence of rupee-cost averaging visualizations, beginners halt SIP contributions before compounding can occur.
+                    </div>
                 </div>
             </div>
             """, unsafe_allow_html=True)
 
         with rec_col3:
             st.markdown(f"""
-            <div class="insight-box" style="border-left:4px solid {FINTECH_GREEN};">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                    <strong style="color:{FINTECH_GREEN};font-size:0.95rem;">#3 Rigid 48-Hour Skip Rule</strong>
-                    <span class="badge badge-green">High Feasibility Fix</span>
-                </div>
-                <div style="font-size:0.8rem;color:{FINTECH_MUTED};margin-bottom:10px;">Friction in liquidity emergencies</div>
-                <div style="color:{FINTECH_BODY};font-size:0.86rem;line-height:1.55;">
-                    Existing platform rules lock SIP execution 48 hours prior to debit. When sudden medical or festive liquidity needs emerge within this window, investors cannot pause the installment. Forced between bank fines or cancellation, users permanently cancel their recurring SIP.
+            <div class="insight-box" style="border-left:4px solid {FINTECH_GREEN};min-height:195px;display:flex;flex-direction:column;justify-content:space-between;">
+                <div>
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                        <strong style="color:{FINTECH_GREEN};font-size:0.95rem;">#3 Rigid 48-Hour Skip Rule</strong>
+                        <span class="badge badge-green">High Feasibility Fix</span>
+                    </div>
+                    <div style="font-size:0.8rem;color:{FINTECH_MUTED};margin-bottom:10px;">Friction in liquidity emergencies</div>
+                    <div style="color:{FINTECH_BODY};font-size:0.86rem;line-height:1.55;">
+                        Existing platform rules lock SIP execution 48 hours prior to debit. When sudden medical or festive liquidity needs emerge within this window, investors cannot pause the installment. Forced between bank fines or cancellation, users permanently cancel their recurring SIP.
+                    </div>
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -700,14 +819,46 @@ with tab2:
             j_chart_data.append({'Stage': stage, 'Signals': cnt, 'Description': desc})
         
         j_df = pd.DataFrame(j_chart_data)
+        max_sig = max([d['Signals'] for d in j_chart_data] or [1])
+        st.markdown("""
+        <div class="chart-card">
+            <div class="chart-card-header">
+                <div>
+                    <div class="chart-card-title">12-Month Timeline Distribution</div>
+                    <div class="chart-card-subtitle">Verified feedback volume across investor journey stages</div>
+                </div>
+                <span class="badge badge-slate">7 Stages</span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
         fig_j = px.bar(
             j_df, x='Signals', y='Stage', orientation='h',
-            title='Verified Feedback Volume Across 12-Month Journey Stages',
             color='Stage', color_discrete_sequence=FINTECH_PALETTE,
             text='Signals'
         )
-        fig_j.update_traces(textposition='outside')
-        fig_j.update_layout(**base_layout(380), showlegend=False)
+        fig_j.update_traces(
+            texttemplate=' %{text:,}',
+            textposition='outside',
+            cliponaxis=False,
+            marker=dict(line=dict(width=0))
+        )
+        fig_j.update_layout(
+            **base_layout(380, margin=dict(l=10, r=42, t=10, b=25)),
+            showlegend=False
+        )
+        fig_j.update_xaxes(
+            range=[0, max_sig * 1.25],
+            title=dict(text="Verified Signals Count", font=dict(color=FINTECH_MUTED, size=11)),
+            gridcolor="#F1F5F9",
+            linecolor="#E2E8F0",
+            tickfont=dict(color=FINTECH_MUTED, size=10)
+        )
+        fig_j.update_yaxes(
+            autorange="reversed",
+            gridcolor="#F1F5F9",
+            linecolor="#E2E8F0",
+            tickfont=dict(color=FINTECH_DARK_NAVY, size=11)
+        )
         st.plotly_chart(fig_j, use_container_width=True)
 
     with col_j2:
@@ -763,6 +914,17 @@ with tab3:
         col_m1, col_m2 = st.columns([3, 2])
         
         with col_m1:
+            st.markdown("""
+            <div class="chart-card">
+                <div class="chart-card-header">
+                    <div>
+                        <div class="chart-card-title">Opportunity Prioritization Landscape</div>
+                        <div class="chart-card-subtitle">Sample prevalence vs in-app addressability (bubble size: priority score)</div>
+                    </div>
+                    <span class="badge badge-green">Scored Matrix</span>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
             fig_opp = px.scatter(
                 opp_df,
                 x='pct_sample',
@@ -770,7 +932,6 @@ with tab3:
                 size='composite_score',
                 color='sub_category',
                 text='sub_category',
-                title='Opportunity Landscape: Sample Prevalence vs In-App Addressability',
                 labels={'pct_sample': 'Sample Prevalence (% of relevant records)', 'addressability': 'In-App Addressability Score (0 to 1)'},
                 color_discrete_sequence=FINTECH_PALETTE
             )
@@ -778,7 +939,17 @@ with tab3:
                 textposition='top center',
                 marker=dict(opacity=0.9, line=dict(width=1, color='#CBD5E1'))
             )
-            fig_opp.update_layout(**base_layout(400), showlegend=False)
+            fig_opp.update_layout(
+                **base_layout(400, margin=dict(l=16, r=16, t=15, b=30)),
+                showlegend=False
+            )
+            fig_opp.update_yaxes(
+                range=[0.55, 1.04],
+                gridcolor="#F1F5F9",
+                linecolor="#E2E8F0",
+                tickfont=dict(color=FINTECH_MUTED, size=11),
+                title=dict(font=dict(color=FINTECH_BODY, size=12))
+            )
             fig_opp.add_hline(y=0.75, line_dash='dot', line_color='#94A3B8', annotation_text="High Addressability Threshold")
             st.plotly_chart(fig_opp, use_container_width=True)
 
